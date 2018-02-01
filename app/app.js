@@ -1,11 +1,17 @@
-app = angular.module('app', []);
+/*app = angular.module('app', []);
 app.controller('ProdutosController', ['$scope', '$http', function ($scope, $http) {
-    $http.get('getProdutos.php')
-    .success(function(data) {
-        $scope.produtos = data;
-    });
-}]);
-
-/*angular.module('app').config(['$controllerProvider', function($controllerProvider) {
-	$controllerProvider.allowGlobals();
+	$http.get('getProdutos.php')
+	.then(function(response) {
+		$scope.produtos = response.data;
+		console.log(response);
+	})
+	
+	#scope.editarProduto = function(id){
+		$http.get("getProdutoById.php?id=" + id)
+		.then(function(response) {
+			$scope.edita_produto = response.data;
+			console.log(response);
+		});
+	};
+	
 }]);*/

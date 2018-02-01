@@ -2,8 +2,6 @@
 	
 	$dados = json_decode(file_get_contents("php://input"));
 	
-	
-	
 	$conn = mysqli_connect("localhost:3306", "root", "", "bd_ceuma");
 	
 	if(!$conn){
