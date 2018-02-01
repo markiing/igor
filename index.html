@@ -78,8 +78,8 @@
 					});
 			}
 			
-			$scope.salvar = function(id){
-				console.log(id);
+			$scope.salvar = function(cpf){
+				console.log(cpf);
 				$http.post("salvar.php", {'id': $scope.id, 'descricao': $scope.descricao, 'quantidade': $scope.quantidade, 'data': $scope.data})
 					.then(function(data, status, headers, config){
 						console.log("Inserido com sucesso!");
@@ -203,7 +203,7 @@
 								<input type="text" ng-model="nota_pratica" placeholder="Nota Pratica" name="nota_pratica" class="form-control" />
 							</div>
 							<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-							<button type="submit" class="btn btn-primary" ng-click="salvarNota(cpf, nota_teorica, nota_pratica)">Salvar</button>
+							<button type="submit" class="btn btn-primary" ng-click="salvarNota(nota_cpf, nota_teorica, nota_pratica)">Salvar</button>
 					  </form>
 					</div>
 				</div>

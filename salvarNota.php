@@ -12,7 +12,11 @@
 	$nota_teorica = mysqli_real_escape_string($conn, $dados->nota_teorica);
 	$nota_pratica = mysqli_real_escape_string($conn, $dados->nota_pratica);
 	
-	$sql = mysqli_query($conn, "UPDATE tb_nota SET nota_teorica='".$nota_teorica."', nota_pratica='".$nota_pratica." WHERE cpf='".$cpf."'");
+	echo "Cpf: " . $cpf . " Nota teoricao: " . $nota_teorica . " Nota pratica: " . $nota_pratica;
+	
+	$sql = mysqli_query($conn, "UPDATE tb_nota SET nota_teorica=".$nota_teorica.", nota_pratica=".$nota_pratica." WHERE cpf=".$cpf."");
+	
+	echo mysqli_error($conn);
 	
 	mysqli_close($conn);
 	

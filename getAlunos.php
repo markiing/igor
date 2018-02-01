@@ -5,7 +5,8 @@
 	if(!$conn){
 		die("Nao foi possivel se conectar ao banco!" . mysqli_error($conn));
 	}
-	$sql = mysqli_query($conn, "SELECT * FROM tb_aluno LEFT JOIN tb_endereco ON tb_aluno.endereco=tb_endereco.id LEFT JOIN tb_nota ON tb_aluno.cpf=tb_nota.cpf");
+	$sql = mysqli_query($conn, "SELECT tb_aluno.cpf, tb_aluno.nome, tb_aluno.dt_nascimento, tb_endereco.rua, tb_endereco.bairro, tb_endereco.complemento, tb_endereco.numero, tb_nota.nota_pratica, tb_nota.nota_teorica " 
+								. "FROM tb_aluno LEFT JOIN tb_endereco ON tb_aluno.endereco=tb_endereco.id LEFT JOIN tb_nota ON tb_aluno.cpf=tb_nota.cpf");
 	if(mysqli_num_rows($sql)){
 		$data = array();
 		while($row = mysqli_fetch_array($sql)){

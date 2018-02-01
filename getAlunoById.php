@@ -14,7 +14,7 @@
 	}
 	
 	$cpf = mysqli_real_escape_string($conn, $parametro);
-	$sql = mysqli_query($conn, "SELECT * FROM tb_aluno LEFT JOIN tb_endereco ON tb_aluno.endereco=tb_endereco.id LEFT JOIN tb_nota ON tb_aluno.cpf=tb_nota.cpf WHERE tb_aluno.cpf='".$cpf."'");
+	$sql = mysqli_query($conn, "SELECT tb_aluno.cpf, tb_aluno.nome, tb_aluno.dt_nascimento, tb_endereco.rua, tb_endereco.bairro, tb_endereco.complemento, tb_endereco.numero, tb_nota.nota_pratica, tb_nota.nota_teorica FROM tb_aluno LEFT JOIN tb_endereco ON tb_aluno.endereco=tb_endereco.id LEFT JOIN tb_nota ON tb_aluno.cpf=tb_nota.cpf WHERE tb_aluno.cpf='".$cpf."'");
 	
 	if(mysqli_num_rows($sql)){
 		$data = array();
