@@ -33,6 +33,8 @@
 					$http.post("insert.php", {'id': $scope.id, 'descricao': $scope.descricao, 'quantidade': $scope.quantidade, 'data': $scope.data})
 					.then(function(data, status, headers, config){
 						console.log("Inserido com sucesso!");
+						alert("Cadastrado com sucesso!");
+						window.location.href = "index.html";
 					});
 				};
 			}]);
@@ -54,11 +56,13 @@
 					<span class="control-label">Data:</span> <input type="date" class="form-control" ng-model="data"/ ><br />
 				</div>
 				<div class="text-center">
-					<input type="button" class="btn btn-success" value="Cadastrar" ng-click="cadastrar()" /><br />
+					<input type="button" class="btn btn-success" value="Salvar" ng-click="cadastrar()" /><br />
 				</div>
 			</div>
 		</div>
 	</div>
+	<br />
+	<a href="index.html"><button type="button" class="btn btn-primary">Voltar</button></a>
 	<!-- fim do container -->
 
 	</body>

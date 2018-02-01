@@ -1,5 +1,6 @@
 <?php
-
+	
+	$parametro = null;
 	if (defined('STDIN')) {
 		$parametro = $argv[1];
 	} else { 
