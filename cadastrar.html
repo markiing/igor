@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script type="text/javascript" src="app/assets/js/angular.min.js"></script>
+
+		<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="app/assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="app/assets/js/bootstrap.min.js"></script>
+		
+		<title>Cadastro de Alunos</title>
+		
+	</head>
+	<body>
+	
+	<!-- container do app -->
+	<div class="container" ng-app="app">
+		<script>
+			var app = angular.module('app', []);
+			app.controller('AlunoController', ['$scope', '$http', function ($scope, $http) {
+				$scope.cadastrar = function(){
+					$http.post("insert.php", {'nome': $scope.nome, 'cpf': $scope.cpf, 'rua': $scope.rua, 'bairro': $scope.bairro, 'complemento': $scope.complemento,
+												'numero': $scope.numero, 'dt_nascimento': $scope.dt_nascimento, 'usuario': $scope.dt_nascimento, 'senha': $scope.senha})
+					.then(function(data, status, headers, config){
+						console.log("Inserido com sucesso!");
+						alert("Cadastrado com sucesso!");
+						window.location.href = "index.html";
+					});
+				};
+			}]);
+		</script>
+		<div class="card">
+			<div class="card-header text-center"><span class="h5">Cadastro de Aluno</span></div>
+			<div class="card-body">
+			<div ng-controller="AlunoController">
+				<div class="form-group row">
+					<span class="control-label">Nome:</span> <input type="text" class="form-control" ng-model="nome" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">CPF:</span> <input type="number" class="form-control" ng-model="cpf" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Rua:</span> <input type="text" class="form-control" ng-model="rua" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Bairro:</span> <input type="text" class="form-control" ng-model="bairro" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Complemento:</span> <input type="text" class="form-control" ng-model="complemento" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Numero:</span> <input type="text" class="form-control" ng-model="numero" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Data de Nascimento:</span> <input type="date" class="form-control" ng-model="dt_nascimento"/ ><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Usuario:</span> <input type="text" class="form-control" ng-model="usuario"/ ><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Senha:</span> <input type="password" class="form-control" ng-model="senha"/ ><br />
+				</div>
+				<div class="text-center">
+					<input type="button" class="btn btn-success" value="Salvar" ng-click="cadastrar()" /><br />
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<a href="index.html"><button type="button" class="btn btn-primary">Voltar</button></a>
+	<!-- fim do container -->
+
+	</body>
+</html>

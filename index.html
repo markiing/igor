@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script type="text/javascript" src="app/assets/js/angular.min.js"></script>
+
+		<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="app/assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="app/assets/js/bootstrap.min.js"></script>
+		
+		<title>Pagina Inicial</title>
+		
+	</head>
+	<body>
+	
+	<script>
+		var app = angular.module('app', []);
+		app.controller('AlunoController', ['$scope', '$http', function ($scope, $http) {
+			$http.get('getAlunos.php')
+			.then(function(response) {
+				$scope.alunos = response.data;
+				console.log(response);
+			})
+			
+			$scope.editarAluno = function(cpf){
+				console.log(cpf);
+				$http.get("getAlunoById.php?cpf=" + cpf)
+				.then(function(response) {
+					console.log(response.data);
+					$scope.cpf = response.data[0].cpf;
+					$scope.nome = response.data[0].nome;
+					$scope.rua = response.data[0].rua;
+					$scope.bairro = response.data[0].bairro;
+					$scope.complemento = response.data[0].complemento;
+					$scope.numero = response.data[0].numero;
+					$scope.dt_nascimento = response.data[0].dt_nascimento;
+					console.log($scope.cpf);
+				});
+			}
+			
+			$scope.excluir = function(cpf){
+				console.log(cpf);
+				var confirma = confirm('Tem certeza que deseja excluir este produto?');
+				if(confirma == true){
+					$http.get("excluir.php?cpf=" + cpf)
+					.then(function(response) {
+						console.log("Inserido com sucesso!");
+						alert('Aluno excluido com sucesso!');
+						window.location.href = "index.html";
+						console.log(response);
+					});
+				}
+			}
+			
+			$scope.addNota = function(cpf){
+				console.log(cpf);
+				$http.get("getAlunoById.php?cpf=" + cpf)
+				.then(function(response) {
+					console.log(response.data);
+					$scope.nota_cpf = response.data[0].cpf;
+					$scope.nota_nome = response.data[0].nome;
+					$scope.nota_teorica = response.data[0].nota_teorica;
+					$scope.nota_pratica = response.data[0].nota_pratica;
+				});
+			}
+			
+			$scope.salvarNota = function(cpf, nota_teorica, nota_pratica){
+				console.log("Cpf: " + cpf + "Nota teorica: " + nota_teorica  + " Nota pratica: " + nota_pratica);
+				$http.post("salvarNota.php", {'cpf': $scope.nota_cpf, 'nota_teorica': $scope.nota_teorica, 'nota_pratica': $scope.nota_pratica})
+					.then(function(data, status, headers, config){
+						console.log("Notas inseridas com sucesso!");
+						alert('Aluno alterado com sucesso!');
+						window.location.href = "index.html";
+					});
+			}
+			
+			$scope.salvar = function(id){
+				console.log(id);
+				$http.post("salvar.php", {'id': $scope.id, 'descricao': $scope.descricao, 'quantidade': $scope.quantidade, 'data': $scope.data})
+					.then(function(data, status, headers, config){
+						console.log("Inserido com sucesso!");
+						alert('Aluno alterado com sucesso!');
+						window.location.href = "index.html";
+					});
+			};
+			
+		}]);
+	</script>
+	
+	<!-- container do app -->
+	<div class="container" ng-app="app" ng-controller="AlunoController">
+		<div class="card">
+			<div class="card-header text-center"><h5>Listagem de Alunos</h5></div>
+			<div class="card-body">
+			<div>
+				<table class="table table-striped table-bordered">
+					<thead>
+						<th>CPF</th>
+						<th>Nome</th>
+						<th>Rua</th>
+						<th>Bairro</th>
+						<th>Complemento</th>
+						<th>Numero</th>
+						<th>Data de Nascimento</th>
+						<th>Nota Teorica</th>
+						<th>Nota Pratica</th>
+					</thead>
+					<tbody>
+						<tr ng-repeat="aluno in alunos">
+							<td>{{aluno.cpf}}</td>
+							<td>{{aluno.nome}}</td>
+							<td>{{aluno.rua}}</td>
+							<td>{{aluno.bairro}}</td>
+							<td>{{aluno.complemento}}</td>
+							<td>{{aluno.numero}}</td>
+							<td>{{aluno.dt_nascimento}}</td>
+							<td class="text-center"><button data-toggle="modal" data-target="#editar-aluno" ng-click="editarAluno(aluno.cpf)" class="btn btn-warning">Editar Aluno</button></td>
+							<td class="text-center"><button data-toggle="modal" data-target="#adicionar-notas" ng-click="addNota(aluno.cpf)" class="btn btn-primary">Adicionar Nota</button></td>
+							<td class="text-center"><button ng-click="excluir(aluno.cpf)" class="btn btn-danger">Excluir</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="editar-aluno" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Editar Aluno</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="nome" class="form-control-label">Nome:</label>
+								<input type="text" ng-model="nome" placeholder="nome" name="nome" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="cpf" class="form-control-label">CPF:</label>
+								<input type="text" ng-model="cpf" placeholder="CPF" name="cpf" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="rua" class="form-control-label">Rua:</label>
+								<input type="text" ng-model="rua" placeholder="Rua" name="rua" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="bairro" class="form-control-label">Bairro:</label>
+								<input type="text" ng-model="bairro" placeholder="Quantidade" name="bairro" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="complemento" class="form-control-label">Complemento:</label>
+								<input type="text" ng-model="complemento" placeholder="Complemento" name="complemento" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="numero" class="form-control-label">Numero:</label>
+								<input type="text" ng-model="numero" placeholder="Numero" name="numero" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="dt_nascimento" class="form-control-label">Data de Nascimento:</label>
+								<input type="text" ng-model="dt_nascimento" placeholder="Data de Nascimento" name="dt_nascimento" class="form-control" />
+							</div>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+							<button type="submit" class="btn btn-primary" ng-click="salvar(cpf)">Salvar</button>
+					  </form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="adicionar-notas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Adicionar Notas</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="form-group">
+								<label for="nota_nome" class="form-control-label">Nome:</label>
+								<input type="text" ng-model="nota_nome" placeholder="nome" name="nota_nome" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="nota_cpf" class="form-control-label">CPF:</label>
+								<input type="text" ng-model="nota_cpf" placeholder="CPF" name="nota_cpf" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="nota_teorica" class="form-control-label">Nota Teorica:</label>
+								<input type="text" ng-model="nota_teorica" placeholder="Nota Teorica" name="nota_teorica" class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="nota_pratica" class="form-control-label">Nota Pratica:</label>
+								<input type="text" ng-model="nota_pratica" placeholder="Nota Pratica" name="nota_pratica" class="form-control" />
+							</div>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+							<button type="submit" class="btn btn-primary" ng-click="salvarNota(cpf, nota_teorica, nota_pratica)">Salvar</button>
+					  </form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
+		<div class="text-center">
+			<a href="cadastrar.html"><button type="button" class="btn btn-success" href="cadastrar.html">Cadastrar</button></a>
+		</div>
+		
+	</div>
+	<!-- fim do container -->
+
+	</body>
+</html>

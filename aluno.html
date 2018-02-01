@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script type="text/javascript" src="app/assets/js/angular.min.js"></script>
+
+		<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="app/assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="app/assets/js/bootstrap.min.js"></script>
+		
+		<title>Minhas Informacoes</title>
+		
+	</head>
+	<body>
+	
+	<script>
+		var app = angular.module('app', []);
+		app.controller('AlunoController', ['$scope', '$http', function ($scope, $http) {
+			$scope.consultar = function(usuario, senha){
+				$http.get('consultaAluno.php?usuario=' + usuario + '&senha=' + senha)
+				.then(function(response) {
+					var resultado = document.getElementById("resultado");
+					var consulta = document.getElementById("consulta");
+					if(response.data[0] != null){
+						$scope.cpf = response.data[0].cpf;
+						$scope.nome = response.data[0].nome;
+						$scope.rua = response.data[0].rua;
+						$scope.bairro = response.data[0].bairro;
+						$scope.complemento = response.data[0].complemento;
+						$scope.numero = response.data[0].numero;
+						$scope.dt_nascimento = response.data[0].dt_nascimento;
+						$scope.nota_teorica = response.data[0].nota_teorica;
+						$scope.nota_pratica = response.data[0].nota_pratica;
+						console.log(response.data);
+						resultado.style.display = "block";
+						consulta.style.display = "none";
+					}else{
+						resultado.style.display = "none";
+						consulta.style.display = "block";
+						alert('Usuario ou senha incorretos!');
+					}
+				}),
+				function(){
+					alert('Usuario ou senha incorretos!');
+					var resultado = document.getElementById("resultado");
+					var consulta = document.getElementById("consulta");
+					resultado.style.display = "none";
+					consulta.style.display = "block";
+				}
+			};
+		}]);
+	</script>
+	<div ng-app="app" ng-controller="AlunoController">
+		<div class="container" id="consulta">
+			<div class="card">
+				<div class="card-header text-center"><h5>Consultar Situacao</h5></div>
+				<div class="card-body" style="padding-right:25%;padding-left:25%;" >
+					<div class="form-group">
+						<span class="control-label">Usuario:</span> <input type="text" class="form-control" ng-model="usuario" /><br />
+						<span class="control-label">Senha:</span> <input type="text" class="form-control" ng-model="senha" /><br />
+					</div>
+					<div class="text-center"><button type="button" class="btn btn-success" ng-click="consultar(usuario, senha)">Consultar</button></div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- container do app -->
+		<div class="container" id="resultado" style="display:none;">
+			<div class="card">
+				<div class="card-header text-center"><h5>Minhas Informacoes</h5></div>
+				<div class="card-body">
+					<div class="form-group row">
+						<span class="control-label">Nome:</span> <input type="text" class="form-control" ng-model="nome" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">CPF:</span> <input type="number" class="form-control" ng-model="cpf" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Rua:</span> <input type="text" class="form-control" ng-model="rua" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Bairro:</span> <input type="text" class="form-control" ng-model="bairro" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Complemento:</span> <input type="text" class="form-control" ng-model="complemento" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Numero:</span> <input type="text" class="form-control" ng-model="numero" /><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Data de Nascimento:</span> <input type="text" class="form-control" ng-model="dt_nascimento"/ ><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Nota Teorica:</span> <input type="text" class="form-control" ng-model="nota_teorica"/ ><br />
+					</div>
+					<div class="form-group row">
+						<span class="control-label">Nota Teorica:</span> <input type="text" class="form-control" ng-model="nota_pratica"/ ><br />
+					</div>
+					<div class="text-center">
+						<input type="button" class="btn btn-success" value="Salvar" ng-click="cadastrar()" /><br />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fim do container -->
+
+	</body>
+</html>
