@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	 
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<script type="text/javascript" src="app/assets/js/angular.min.js"></script>
+		
+		<!-- app -->
+		<script type="text/javascript" src="app/app.js"></script>
+ 
+		<!-- produtos controller -->
+		<script type="text/javascript" src="app/produtos/produtos.controller.js"></script>
+ 
+		<!-- produtos factory -->
+		<script type="text/javascript" src="app/produtos/produtos.factory.js"></script>
+		
+		<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
+		
+		<title>Cadastro de Produto</title>
+		
+	</head>
+	<body>
+	
+	<!-- container do app -->
+	<div class="container" ng-app="app">
+		<script>
+			var app = angular.module('app', []);
+			app.controller('ProdutosController', ['$scope', '$http', function ($scope, $http) {
+				$scope.cadastrar = function(){
+					$http.post("insert.php", {'id': $scope.id, 'descricao': $scope.descricao, 'quantidade': $scope.quantidade, 'data': $scope.data})
+					.then(function(data, status, headers, config){
+						console.log("Inserido com sucesso!");
+					});
+				};
+			}]);
+		</script>
+		<div class="card">
+			<div class="card-header text-center"><span class="h5">Cadastro de Produto</span></div>
+			<div class="card-body">
+			<div ng-controller="ProdutosController">
+				<div class="form-group row">
+					<span class="control-label">Id:</span> <input type="text" class="form-control" ng-model="id" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Descricao:</span> <input type="text" class="form-control" ng-model="descricao" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Quantidade:</span> <input type="number" class="form-control" ng-model="quantidade" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Data:</span> <input type="date" class="form-control" ng-model="data"/ ><br />
+				</div>
+				<div class="text-center">
+					<input type="button" class="btn btn-success" value="Cadastrar" ng-click="cadastrar()" /><br />
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- fim do container -->
+
+	</body>
+</html>
