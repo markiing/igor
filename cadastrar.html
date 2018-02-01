@@ -7,19 +7,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
 		<script type="text/javascript" src="app/assets/js/angular.min.js"></script>
-		
-		<!-- app -->
-		<script type="text/javascript" src="app/app.js"></script>
- 
-		<!-- produtos controller -->
-		<script type="text/javascript" src="app/produtos/produtos.controller.js"></script>
- 
-		<!-- produtos factory -->
-		<script type="text/javascript" src="app/produtos/produtos.factory.js"></script>
-		
+
 		<link href="app/assets/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="app/assets/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="app/assets/js/bootstrap.min.js"></script>
 		
-		<title>Cadastro de Produto</title>
+		<title>Cadastro de Alunos</title>
 		
 	</head>
 	<body>
@@ -28,9 +21,10 @@
 	<div class="container" ng-app="app">
 		<script>
 			var app = angular.module('app', []);
-			app.controller('ProdutosController', ['$scope', '$http', function ($scope, $http) {
+			app.controller('AlunoController', ['$scope', '$http', function ($scope, $http) {
 				$scope.cadastrar = function(){
-					$http.post("insert.php", {'id': $scope.id, 'descricao': $scope.descricao, 'quantidade': $scope.quantidade, 'data': $scope.data})
+					$http.post("insert.php", {'nome': $scope.nome, 'cpf': $scope.cpf, 'rua': $scope.rua, 'bairro': $scope.bairro, 'complemento': $scope.complemento,
+												'numero': $scope.numero, 'dt_nascimento': $scope.dt_nascimento, 'usuario': $scope.dt_nascimento, 'senha': $scope.senha})
 					.then(function(data, status, headers, config){
 						console.log("Inserido com sucesso!");
 						alert("Cadastrado com sucesso!");
@@ -40,20 +34,35 @@
 			}]);
 		</script>
 		<div class="card">
-			<div class="card-header text-center"><span class="h5">Cadastro de Produto</span></div>
+			<div class="card-header text-center"><span class="h5">Cadastro de Aluno</span></div>
 			<div class="card-body">
-			<div ng-controller="ProdutosController">
+			<div ng-controller="AlunoController">
 				<div class="form-group row">
-					<span class="control-label">Id:</span> <input type="text" class="form-control" ng-model="id" /><br />
+					<span class="control-label">Nome:</span> <input type="text" class="form-control" ng-model="nome" /><br />
 				</div>
 				<div class="form-group row">
-					<span class="control-label">Descricao:</span> <input type="text" class="form-control" ng-model="descricao" /><br />
+					<span class="control-label">CPF:</span> <input type="number" class="form-control" ng-model="cpf" /><br />
 				</div>
 				<div class="form-group row">
-					<span class="control-label">Quantidade:</span> <input type="number" class="form-control" ng-model="quantidade" /><br />
+					<span class="control-label">Rua:</span> <input type="text" class="form-control" ng-model="rua" /><br />
 				</div>
 				<div class="form-group row">
-					<span class="control-label">Data:</span> <input type="date" class="form-control" ng-model="data"/ ><br />
+					<span class="control-label">Bairro:</span> <input type="text" class="form-control" ng-model="bairro" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Complemento:</span> <input type="text" class="form-control" ng-model="complemento" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Numero:</span> <input type="text" class="form-control" ng-model="numero" /><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Data de Nascimento:</span> <input type="date" class="form-control" ng-model="dt_nascimento"/ ><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Usuario:</span> <input type="text" class="form-control" ng-model="usuario"/ ><br />
+				</div>
+				<div class="form-group row">
+					<span class="control-label">Senha:</span> <input type="password" class="form-control" ng-model="senha"/ ><br />
 				</div>
 				<div class="text-center">
 					<input type="button" class="btn btn-success" value="Salvar" ng-click="cadastrar()" /><br />
